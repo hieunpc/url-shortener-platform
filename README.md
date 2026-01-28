@@ -23,6 +23,7 @@ A professional URL shortener platform built with NestJS and React, featuring rea
 ## 🛠️ Tech Stack
 
 ### Backend (NestJS)
+
 - **Framework**: NestJS 11.0.1
 - **Language**: TypeScript
 - **Database**: MongoDB with Mongoose ODM
@@ -31,6 +32,7 @@ A professional URL shortener platform built with NestJS and React, featuring rea
 - **Validation**: class-validator, class-transformer
 
 ### Frontend (React)
+
 - **Framework**: React 18 with Vite 5.4.19
 - **Language**: TypeScript
 - **UI Library**: ShadcnUI + Radix UI
@@ -41,6 +43,7 @@ A professional URL shortener platform built with NestJS and React, featuring rea
 - **Routing**: React Router v6
 
 ### DevOps
+
 - **Containerization**: Docker Compose
 - **Version Control**: Git/GitHub
 
@@ -70,11 +73,13 @@ docker-compose up -d
 ```
 
 Verify containers are running:
+
 ```bash
 docker ps
 ```
 
 You should see:
+
 - `url-shortener-mongodb` on port 27017
 - `url-shortener-redis` on port 6379
 
@@ -94,6 +99,7 @@ cp .env.example .env
 ```
 
 **Environment Variables** (`.env`):
+
 ```env
 # MongoDB
 MONGODB_URI=mongodb://localhost:27017/url-shortener
@@ -108,6 +114,7 @@ BASE_URL=http://localhost:3000
 ```
 
 **Start Backend**:
+
 ```bash
 # Development mode with hot reload
 npm run start:dev
@@ -154,6 +161,7 @@ Frontend will run on: `http://localhost:8080`
 ### API Endpoints
 
 #### Create Short URL
+
 ```http
 POST http://localhost:3000/api/shorten
 Content-Type: application/json
@@ -164,37 +172,43 @@ Content-Type: application/json
 ```
 
 **Response**:
+
 ```json
 {
-  "id": "507f1f77bcf86cd799439011",
-  "originalUrl": "https://example.com/very-long-url",
-  "shortCode": "abc123",
-  "shortUrl": "http://localhost:3000/abc123",
-  "clickCount": 0,
-  "clickHistory": [],
-  "createdAt": "2026-01-28T10:00:00.000Z"
+    "id": "507f1f77bcf86cd799439011",
+    "originalUrl": "https://example.com/very-long-url",
+    "shortCode": "abc123",
+    "shortUrl": "http://localhost:3000/abc123",
+    "clickCount": 0,
+    "clickHistory": [],
+    "createdAt": "2026-01-28T10:00:00.000Z"
 }
 ```
 
 #### Get All URLs
+
 ```http
 GET http://localhost:3000/api/urls
 ```
 
 #### Get URL Statistics
+
 ```http
 GET http://localhost:3000/api/stats/:shortCode
 ```
 
 #### Delete URL
+
 ```http
 DELETE http://localhost:3000/api/urls/:id
 ```
 
 #### Redirect Short URL
+
 ```http
 GET http://localhost:3000/:shortCode
 ```
+
 Redirects to the original URL and increments click count.
 
 ## 🗂️ Project Structure
@@ -272,6 +286,7 @@ npm run lint
 ### Database Management
 
 **Check MongoDB**:
+
 ```bash
 # Connect to MongoDB container
 docker exec -it url-shortener-mongodb mongosh
@@ -282,6 +297,7 @@ db.urls.find().pretty()
 ```
 
 **Check Redis**:
+
 ```bash
 # Connect to Redis container
 docker exec -it url-shortener-redis redis-cli
@@ -294,20 +310,24 @@ GET url:abc123
 ## 🐛 Troubleshooting
 
 ### Backend won't start
+
 - Check if ports 3000, 27017, 6379 are available
 - Verify Docker containers are running: `docker ps`
 - Check logs: `docker logs url-shortener-mongodb`
 
 ### Frontend can't connect to backend
+
 - Verify backend is running on port 3000
 - Check CORS settings in `main.ts`
 - Ensure `VITE_API_URL` in `.env` is correct
 
 ### Redis connection issues
+
 - Restart Redis container: `docker restart url-shortener-redis`
 - Check Redis logs: `docker logs url-shortener-redis`
 
 ### MongoDB connection issues
+
 - Restart MongoDB container: `docker restart url-shortener-mongodb`
 - Verify connection string in `.env`
 
@@ -369,6 +389,7 @@ cd backend
 ### 🆓 Free Deployment (100% Free Forever)
 
 This guide uses completely free services:
+
 - **Frontend**: Vercel (Unlimited)
 - **Backend**: Render Free Tier (750hrs/month, sleeps after 15min idle)
 - **Database**: MongoDB Atlas Free Tier (512MB)
@@ -395,9 +416,9 @@ This guide uses completely free services:
 3. Create new Redis database
 4. Choose region close to your backend
 5. Copy credentials:
-   - `REDIS_HOST`: endpoint (e.g., `abc-123.upstash.io`)
-   - `REDIS_PORT`: `6379`
-   - `REDIS_PASSWORD`: your password
+    - `REDIS_HOST`: endpoint (e.g., `abc-123.upstash.io`)
+    - `REDIS_PORT`: `6379`
+    - `REDIS_PASSWORD`: your password
 
 ---
 
@@ -408,24 +429,25 @@ This guide uses completely free services:
 3. Click **New +** → **Web Service**
 4. Connect your repository: `hieunpc/url-shortener-platform`
 5. Configure:
-   - **Name**: `url-shortener-api`
-   - **Region**: Singapore (or closest)
-   - **Branch**: `main`
-   - **Root Directory**: `backend`
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm run start:prod`
-   - **Plan**: Free
+    - **Name**: `url-shortener-api`
+    - **Region**: Singapore (or closest)
+    - **Branch**: `main`
+    - **Root Directory**: `backend`
+    - **Build Command**: `npm install && npm run build`
+    - **Start Command**: `npm run start:prod`
+    - **Plan**: Free
 
 6. Add Environment Variables:
-   ```
-   NODE_ENV=production
-   PORT=3000
-   MONGODB_URI=mongodb+srv://... (from Step 1)
-   REDIS_HOST=abc-123.upstash.io (from Step 2)
-   REDIS_PORT=6379
-   REDIS_PASSWORD=... (from Step 2)
-   BASE_URL=https://url-shortener-api.onrender.com
-   ```
+
+    ```
+    NODE_ENV=production
+    PORT=3000
+    MONGODB_URI=mongodb+srv://... (from Step 1)
+    REDIS_HOST=abc-123.upstash.io (from Step 2)
+    REDIS_PORT=6379
+    REDIS_PASSWORD=... (from Step 2)
+    BASE_URL=https://url-shortener-api.onrender.com
+    ```
 
 7. Click **Create Web Service**
 8. Wait ~5 minutes for deployment
@@ -440,15 +462,16 @@ This guide uses completely free services:
 3. Click **Add New** → **Project**
 4. Import `hieunpc/url-shortener-platform`
 5. Configure:
-   - **Framework Preset**: Vite
-   - **Root Directory**: `frontend`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
+    - **Framework Preset**: Vite
+    - **Root Directory**: `frontend`
+    - **Build Command**: `npm run build`
+    - **Output Directory**: `dist`
 
 6. Add Environment Variable:
-   ```
-   VITE_API_URL=https://url-shortener-api.onrender.com
-   ```
+
+    ```
+    VITE_API_URL=https://url-shortener-api.onrender.com
+    ```
 
 7. Click **Deploy**
 8. Wait ~2 minutes
@@ -514,12 +537,15 @@ npm install && npm run build && npm run start:prod
 ```
 
 ---
+
 heroku config:set REDIS_HOST=your-redis-host
 heroku config:set BASE_URL=https://your-app.herokuapp.com
 
 # Deploy
+
 git push heroku main
-```
+
+````
 
 ### Frontend Deployment (Example: Vercel)
 
@@ -534,7 +560,7 @@ vercel --prod
 
 # Set environment variable in Vercel dashboard
 VITE_API_URL=https://your-backend-url.com
-```
+````
 
 ## 📝 License
 
@@ -543,6 +569,7 @@ This project is licensed under the MIT License.
 ## 👨‍💻 Author
 
 **hieunpc**
+
 - GitHub: [@hieunpc](https://github.com/hieunpc)
 
 ## 🙏 Acknowledgments

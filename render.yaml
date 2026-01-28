@@ -1,25 +1,25 @@
 services:
-  # NestJS Backend API
-  - type: web
-    name: url-shortener-api
-    env: node
-    region: singapore
-    plan: free
-    buildCommand: cd backend && npm install && npm run build
-    startCommand: cd backend && npm run start:prod
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: PORT
-        value: 3000
-      - key: MONGODB_URI
-        sync: false
-      - key: REDIS_HOST
-        sync: false
-      - key: REDIS_PORT
-        value: 6379
-      - key: REDIS_PASSWORD
-        sync: false
-      - key: BASE_URL
-        sync: false
-    healthCheckPath: /
+    # NestJS Backend API
+    - type: web
+      name: url-shortener-api
+      env: node
+      region: singapore
+      plan: free
+      buildCommand: cd backend && npm install && npm run build
+      startCommand: cd backend && npm run start:prod
+      envVars:
+          - key: NODE_ENV
+            value: production
+          - key: PORT
+            value: 3000
+          - key: MONGODB_URI
+            sync: false
+          - key: REDIS_HOST
+            sync: false
+          - key: REDIS_PORT
+            value: 6379
+          - key: REDIS_PASSWORD
+            sync: false
+          - key: BASE_URL
+            sync: false
+      healthCheckPath: /
