@@ -366,11 +366,154 @@ cd backend
 
 ## 🌐 Deployment
 
-### Backend Deployment (Example: Heroku)
+### 🆓 Free Deployment (100% Free Forever)
+
+This guide uses completely free services:
+- **Frontend**: Vercel (Unlimited)
+- **Backend**: Render Free Tier (750hrs/month, sleeps after 15min idle)
+- **Database**: MongoDB Atlas Free Tier (512MB)
+- **Cache**: Upstash Redis Free Tier (10K commands/day)
+
+---
+
+### Step 1: Setup MongoDB Atlas
+
+1. Go to https://www.mongodb.com/cloud/atlas/register
+2. Create free account and cluster
+3. Choose **FREE** M0 tier (512MB)
+4. Select region closest to you
+5. Create database user with password
+6. Add IP: `0.0.0.0/0` (Allow from anywhere)
+7. Get connection string: `mongodb+srv://<username>:<password>@cluster.xxxxx.mongodb.net/url-shortener`
+
+---
+
+### Step 2: Setup Upstash Redis
+
+1. Go to https://console.upstash.com/
+2. Create free account
+3. Create new Redis database
+4. Choose region close to your backend
+5. Copy credentials:
+   - `REDIS_HOST`: endpoint (e.g., `abc-123.upstash.io`)
+   - `REDIS_PORT`: `6379`
+   - `REDIS_PASSWORD`: your password
+
+---
+
+### Step 3: Deploy Backend to Render
+
+1. Go to https://dashboard.render.com/
+2. Sign up with GitHub
+3. Click **New +** → **Web Service**
+4. Connect your repository: `hieunpc/url-shortener-platform`
+5. Configure:
+   - **Name**: `url-shortener-api`
+   - **Region**: Singapore (or closest)
+   - **Branch**: `main`
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm run start:prod`
+   - **Plan**: Free
+
+6. Add Environment Variables:
+   ```
+   NODE_ENV=production
+   PORT=3000
+   MONGODB_URI=mongodb+srv://... (from Step 1)
+   REDIS_HOST=abc-123.upstash.io (from Step 2)
+   REDIS_PORT=6379
+   REDIS_PASSWORD=... (from Step 2)
+   BASE_URL=https://url-shortener-api.onrender.com
+   ```
+
+7. Click **Create Web Service**
+8. Wait ~5 minutes for deployment
+9. Copy your backend URL: `https://url-shortener-api.onrender.com`
+
+---
+
+### Step 4: Deploy Frontend to Vercel
+
+1. Go to https://vercel.com/
+2. Sign up with GitHub
+3. Click **Add New** → **Project**
+4. Import `hieunpc/url-shortener-platform`
+5. Configure:
+   - **Framework Preset**: Vite
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+
+6. Add Environment Variable:
+   ```
+   VITE_API_URL=https://url-shortener-api.onrender.com
+   ```
+
+7. Click **Deploy**
+8. Wait ~2 minutes
+9. Your app is live! 🎉
+
+---
+
+### Step 5: Update Backend BASE_URL (Important!)
+
+After Vercel deployment, update Render environment variable:
+
+1. Go to Render dashboard → Your service
+2. Environment → Edit `BASE_URL`
+3. Keep as: `https://url-shortener-api.onrender.com`
+4. Save and wait for redeploy
+
+---
+
+### 🎯 Post-Deployment
+
+**Test Your Deployment:**
 
 ```bash
-# Set environment variables
-heroku config:set MONGODB_URI=mongodb+srv://...
+# Test backend API
+curl https://url-shortener-api.onrender.com/api/urls
+
+# Test frontend
+# Visit: https://your-app.vercel.app
+```
+
+**⚠️ Important Notes:**
+
+- **Backend Sleep**: Render free tier sleeps after 15min idle. First request takes ~1min to wake up.
+- **Keep Alive** (Optional): Use cron-job.org to ping your backend every 14min to keep it awake
+- **Database Limit**: 512MB storage (~50K URLs)
+- **Redis Limit**: 10K commands/day (~300 URL operations)
+
+---
+
+### Alternative Deployment Options
+
+#### Backend: Railway (If Render is slow)
+
+```bash
+# Railway offers $5 free credit/month
+1. Visit https://railway.app/
+2. Connect GitHub repo
+3. Select backend folder
+4. Add environment variables
+5. Deploy (uses credit, not 100% free forever)
+```
+
+#### All-in-One: Docker + VPS
+
+If you have a VPS:
+
+```bash
+# Use Docker Compose to run everything
+git clone https://github.com/hieunpc/url-shortener-platform.git
+cd url-shortener-platform/backend
+docker-compose up -d
+npm install && npm run build && npm run start:prod
+```
+
+---
 heroku config:set REDIS_HOST=your-redis-host
 heroku config:set BASE_URL=https://your-app.herokuapp.com
 

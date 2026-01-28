@@ -1,8 +1,8 @@
 {
-  "name": "nest-test-app",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "name": "url-shortener-backend",
+  "version": "1.0.0",
+  "description": "URL Shortener Platform - NestJS Backend API",
+  "author": "hieunpc",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
