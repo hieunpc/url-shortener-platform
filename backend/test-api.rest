@@ -1,0 +1,35 @@
+### Test URL Shortener API
+
+### 1. Tạo short URL với random code
+POST http://localhost:3000/api/shorten
+Content-Type: application/json
+
+{
+  "originalUrl": "https://www.google.com"
+}
+
+### 2. Tạo short URL với custom code
+POST http://localhost:3000/api/shorten
+Content-Type: application/json
+
+{
+  "originalUrl": "https://www.youtube.com",
+  "customCode": "yt2024"
+}
+
+### 3. Lấy danh sách tất cả URLs
+GET http://localhost:3000/api/urls
+
+### 4. Lấy thống kê của một short URL
+GET http://localhost:3000/api/stats/yt2024
+
+### 5. Test redirect (thay "yt2024" bằng code của bạn)
+GET http://localhost:3000/yt2024
+
+### 6. Test URL không hợp lệ
+POST http://localhost:3000/api/shorten
+Content-Type: application/json
+
+{
+  "originalUrl": "not-a-valid-url"
+}
